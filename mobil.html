@@ -18,167 +18,150 @@
   --safe-top: env(safe-area-inset-top, 0px);
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-html,body{height:100%; height:100dvh; overflow:hidden;}
+html,body{height:100%; height:100dvh; overflow:hidden; margin:0;}
 body{
-  margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Arial;
   color:var(--txt);
   background:
     radial-gradient(900px 520px at 12% -10%, rgba(0,240,255,.14), transparent 55%),
     radial-gradient(900px 520px at 92% 10%, rgba(168,85,247,.12), transparent 55%),
     linear-gradient(180deg, #020617, var(--bg));
-  display:flex;
-  flex-direction:column;
+  display:flex; flex-direction:column;
 }
 
-/* TOP BAR */
 .top{
-  display:flex;
-  align-items:center;
-  gap:10px;
+  display:flex; align-items:center; gap:10px;
   padding:10px 12px;
   padding-top: calc(10px + var(--safe-top));
   border-bottom:1px solid var(--stroke);
   background: rgba(0,0,0,.45);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  position:sticky; top:0;
-  z-index:10;
-  flex-shrink:0;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  position:sticky; top:0; z-index:10; flex-shrink:0;
 }
 .brand{display:flex; align-items:center; gap:8px; min-width:0; flex:1;}
 .brand img{
-  width:36px; height:36px;
-  border-radius:12px;
+  width:36px; height:36px; border-radius:12px;
   background: rgba(255,255,255,.06);
   border:1px solid var(--stroke);
-  padding:5px;
-  object-fit:contain;
-  flex-shrink:0;
+  padding:5px; object-fit:contain; flex-shrink:0;
 }
 .title{
-  min-width:0;
-  font-weight:700;
-  font-size:14px;
-  letter-spacing:.2px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  min-width:0; font-weight:700; font-size:14px;
+  letter-spacing:.2px; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;
 }
 .actions{display:flex; gap:6px; align-items:center; flex-shrink:0;}
 .btn{
   cursor:pointer;
   border:1px solid rgba(255,255,255,.12);
   background: rgba(255,255,255,.06);
-  color:var(--txt);
-  border-radius: 12px;
-  padding:9px 11px;
-  font-weight:700;
-  font-size:13px;
-  user-select:none;
-  transition:.15s;
-  text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  -webkit-appearance:none;
-  touch-action:manipulation;
+  color:var(--txt); border-radius:12px;
+  padding:9px 11px; font-weight:700; font-size:13px;
+  user-select:none; transition:.15s; text-decoration:none;
+  display:inline-flex; align-items:center; justify-content:center; gap:5px;
+  -webkit-appearance:none; touch-action:manipulation;
 }
-.btn:active{ transform: scale(0.96); }
-.btn:hover{ background: rgba(255,255,255,.09); }
-.btn.primary{ border-color: rgba(0,240,255,.25); background: rgba(0,240,255,.10); }
-.btn.ghost{ background: transparent; border-color:transparent; }
+.btn:active{ transform:scale(0.96); }
+.btn:hover{ background:rgba(255,255,255,.09); }
+.btn.primary{ border-color:rgba(0,240,255,.25); background:rgba(0,240,255,.10); }
+.btn.ghost{ background:transparent; border-color:transparent; }
 
-/* MAIN CONTENT */
-.wrap{
-  flex:1;
-  display:flex;
-  padding:10px;
-  min-height:0;
-}
+.wrap{ flex:1; display:flex; padding:10px; min-height:0; }
 .card{
-  width:100%;
-  border-radius: var(--r);
+  width:100%; border-radius:var(--r);
   border:1px solid var(--stroke);
-  background: var(--card);
-  overflow:hidden;
-  box-shadow: 0 24px 120px rgba(0,240,255,.10);
-  position:relative;
+  background:var(--card); overflow:hidden;
+  box-shadow:0 24px 120px rgba(0,240,255,.10);
+  position:relative; display:flex; align-items:stretch;
 }
-.frame{ width:100%; height:100%; border:0; display:block; background:#000; }
+
+#hlsVideo{
+  width:100%; height:100%;
+  display:block; background:#000;
+  object-fit:contain;
+}
+
+.videoOverlay{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:16px; background:rgba(0,0,0,.45);
+  transition:opacity .3s;
+}
+.videoOverlay.hidden{ opacity:0; pointer-events:none; }
+
+.playBtn{
+  width:72px; height:72px; border-radius:50%;
+  border:2px solid rgba(255,255,255,.6);
+  background:rgba(0,0,0,.5);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:28px;
+  touch-action:manipulation; transition:.15s;
+}
+.playBtn:active{ transform:scale(0.93); }
+
+.statusText{
+  font-size:13px; color:var(--muted);
+  text-align:center; padding:0 20px;
+}
+
 .hint{
-  position:absolute;
-  left:12px; bottom:10px;
-  padding:6px 10px;
-  border-radius: 999px;
+  position:absolute; left:12px; bottom:10px;
+  padding:6px 10px; border-radius:999px;
   border:1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.45);
-  color: var(--muted);
-  font-size:11px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background:rgba(0,0,0,.45); color:var(--muted);
+  font-size:11px; backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 }
 
-/* BG PLAY STATUS BADGE */
 #bgStatus{
-  position:absolute;
-  right:12px; top:12px;
-  padding:5px 10px;
-  border-radius: 999px;
+  position:absolute; right:12px; top:12px;
+  padding:5px 10px; border-radius:999px;
   border:1px solid rgba(0,240,255,.25);
-  background: rgba(0,0,0,.55);
-  color: rgba(0,240,255,.9);
-  font-size:11px;
-  font-weight:700;
-  backdrop-filter: blur(10px);
-  display:none;
+  background:rgba(0,0,0,.55);
+  color:rgba(0,240,255,.9); font-size:11px; font-weight:700;
+  backdrop-filter:blur(10px); display:none;
 }
 
-/* BOTTOM NAV (mobile) */
+.volBtn{
+  position:absolute; right:12px; bottom:10px;
+  padding:6px 10px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(0,0,0,.45); color:var(--txt);
+  font-size:14px; cursor:pointer; touch-action:manipulation;
+}
+
 .bottomBar{
-  display:none;
-  align-items:center;
-  justify-content:space-around;
+  display:none; align-items:center; justify-content:space-around;
   padding:8px 8px;
-  padding-bottom: calc(8px + var(--safe-bottom));
+  padding-bottom:calc(8px + var(--safe-bottom));
   border-top:1px solid var(--stroke);
-  background: rgba(0,0,0,.55);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
   flex-shrink:0;
 }
 .bottomBar .btn{
-  flex-direction:column;
-  gap:3px;
-  padding:6px 14px;
-  font-size:11px;
-  border-radius:10px;
+  flex-direction:column; gap:3px;
+  padding:6px 14px; font-size:11px; border-radius:10px;
 }
 .bottomBar .bIcon{ font-size:18px; line-height:1; }
 
-/* CHAT BOX */
 #chatBox{
-  position:fixed; right:12px; bottom:12px;
-  bottom: calc(12px + var(--safe-bottom));
-  width: min(340px, calc(100vw - 24px));
-  height: min(460px, 65dvh);
+  position:fixed; right:12px;
+  bottom:calc(12px + var(--safe-bottom));
+  width:min(340px, calc(100vw - 24px));
+  height:min(460px, 65dvh);
   background:rgba(0,0,0,.82);
   border:1px solid rgba(255,255,255,.15);
   border-radius:18px; display:none; flex-direction:column;
-  z-index:999999; backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  box-shadow:0 18px 60px rgba(0,0,0,.45);
-  overflow:hidden;
+  z-index:999999; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 18px 60px rgba(0,0,0,.45); overflow:hidden;
 }
 #chatBox.open{ display:flex; }
-
 .chatHead{
-  padding:10px 12px;
-  font-weight:700;
+  padding:10px 12px; font-weight:700;
   border-bottom:1px solid rgba(255,255,255,.10);
-  display:flex; align-items:center; gap:10px;
-  flex-shrink:0;
+  display:flex; align-items:center; gap:10px; flex-shrink:0;
 }
 #chatMessages{
   flex:1; overflow-y:auto; overflow-x:hidden;
@@ -187,31 +170,25 @@ body{
 }
 .chatFooter{
   padding:8px 10px;
-  padding-bottom: calc(8px + var(--safe-bottom));
+  padding-bottom:calc(8px + var(--safe-bottom));
   border-top:1px solid rgba(255,255,255,.10);
-  background:rgba(0,0,0,.35);
-  flex-shrink:0;
+  background:rgba(0,0,0,.35); flex-shrink:0;
 }
 .chatInputRow{ display:flex; gap:6px; }
 #chatInput{
-  flex:1; padding:9px 10px;
-  border-radius:12px;
+  flex:1; padding:9px 10px; border-radius:12px;
   border:1px solid rgba(255,255,255,.15);
-  background:#0b0f18; color:white; outline:none;
-  font-size:14px;
+  background:#0b0f18; color:white; outline:none; font-size:14px;
 }
 .sendBtn{
   padding:9px 12px; border-radius:12px; border:none;
   background:rgba(168,85,247,.9); font-weight:700; color:white;
   cursor:pointer; touch-action:manipulation;
 }
-.emojiRow{
-  display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;
-}
+.emojiRow{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
 .emojiRow .btn{ padding:5px 9px; }
 
-/* MOBILE ADJUSTMENTS */
-@media (max-width: 640px){
+@media (max-width:640px){
   .top .actions .btn[data-desktop]{ display:none; }
   .bottomBar{ display:flex; }
   .wrap{ padding:8px 8px 0; }
@@ -219,14 +196,13 @@ body{
   .title{ font-size:13px; }
   .brand img{ width:32px; height:32px; border-radius:10px; }
 }
-@media (min-width: 641px){
+@media (min-width:641px){
   .bottomBar{ display:none !important; }
 }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div class="top">
   <div class="brand">
     <img src="https://assets.uzunmuhalefet.com/logos/1dc650d4-0a3f-4f97-bdb2-4cf01cef8e0a.png" alt="Kral Pop">
@@ -239,42 +215,42 @@ body{
   </div>
 </div>
 
-<!-- VIDEO AREA -->
 <div class="wrap">
   <div class="card" id="card">
-    <iframe class="frame" id="frame"
-      src="https://streams.uzunmuhalefet.com/stream/1604703d-b882-4ea0-9c4d-bc4ea1f0d463.m3u8"
-      allow="autoplay; fullscreen"
-      referrerpolicy="no-referrer"
-      allowfullscreen
+    <video id="hlsVideo"
       playsinline
-      webkit-playsinline></iframe>
-    <div class="hint">Çerçeveli Player</div>
+      webkit-playsinline
+      x-webkit-airplay="allow"
+      preload="none"
+      muted></video>
+
+    <div class="videoOverlay" id="overlay">
+      <div class="playBtn" id="playBtnEl" onclick="startPlay()">▶</div>
+      <div class="statusText" id="statusText">Başlatmak için dokunun</div>
+    </div>
+
+    <div class="hint">Canlı Yayın</div>
     <div id="bgStatus">▶ Arka planda çalıyor</div>
+    <button class="volBtn" id="muteBtn" onclick="toggleMute()">🔊</button>
   </div>
 </div>
 
-<!-- BOTTOM NAV (only mobile) -->
 <div class="bottomBar">
   <button type="button" class="btn ghost" onclick="goBack()">
-    <span class="bIcon">←</span>
-    <span>Geri</span>
+    <span class="bIcon">←</span><span>Geri</span>
   </button>
   <button type="button" class="btn ghost" onclick="toggleChat()">
-    <span class="bIcon">💬</span>
-    <span>Chat</span>
+    <span class="bIcon">💬</span><span>Chat</span>
   </button>
   <button type="button" class="btn ghost primary" onclick="goFs()">
-    <span class="bIcon">⛶</span>
-    <span>Tam ekran</span>
+    <span class="bIcon">⛶</span><span>Tam ekran</span>
   </button>
 </div>
 
-<!-- CHAT BOX -->
 <div id="chatBox">
   <div class="chatHead">
     <span>Canlı Chat</span>
-    <span style="margin-left:auto; font-size:12px; color:rgba(255,255,255,.7)">
+    <span style="margin-left:auto;font-size:12px;color:rgba(255,255,255,.7)">
       🟢 Online: <b id="chatOnline">0</b>
     </span>
     <button class="btn ghost" style="padding:6px 10px" onclick="toggleChat()">✕</button>
@@ -286,19 +262,94 @@ body{
       <button type="button" class="sendBtn" onclick="sendMsg()">Gönder</button>
     </div>
     <div class="emojiRow">
-      <button type="button" onclick="addEmoji('😂')" class="btn" style="padding:5px 9px">😂</button>
-      <button type="button" onclick="addEmoji('🔥')" class="btn" style="padding:5px 9px">🔥</button>
-      <button type="button" onclick="addEmoji('❤️')" class="btn" style="padding:5px 9px">❤️</button>
-      <button type="button" onclick="addEmoji('😎')" class="btn" style="padding:5px 9px">😎</button>
-      <button type="button" onclick="addEmoji('👏')" class="btn" style="padding:5px 9px">👏</button>
-      <button type="button" onclick="addEmoji('⚽')" class="btn" style="padding:5px 9px">⚽</button>
+      <button type="button" onclick="addEmoji('😂')" class="btn">😂</button>
+      <button type="button" onclick="addEmoji('🔥')" class="btn">🔥</button>
+      <button type="button" onclick="addEmoji('❤️')" class="btn">❤️</button>
+      <button type="button" onclick="addEmoji('😎')" class="btn">😎</button>
+      <button type="button" onclick="addEmoji('👏')" class="btn">👏</button>
+      <button type="button" onclick="addEmoji('⚽')" class="btn">⚽</button>
     </div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 <script>
+const STREAM_URL = "https://streams.uzunmuhalefet.com/stream/1604703d-b882-4ea0-9c4d-bc4ea1f0d463.m3u8";
+const video = document.getElementById("hlsVideo");
+const overlay = document.getElementById("overlay");
+const statusText = document.getElementById("statusText");
+const playBtnEl = document.getElementById("playBtnEl");
+let hls = null;
+let playing = false;
+
+/* ── HLS INIT ── */
+function initHls(){
+  if(hls){ hls.destroy(); hls = null; }
+
+  if(Hls.isSupported()){
+    hls = new Hls({ lowLatencyMode:true, backBufferLength:30 });
+    hls.loadSource(STREAM_URL);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, ()=> doPlay());
+    hls.on(Hls.Events.ERROR, (e, data)=>{
+      if(data.fatal){
+        statusText.textContent = "Bağlantı kesildi, yeniden deneniyor...";
+        setTimeout(()=> initHls(), 4000);
+      }
+    });
+  } else if(video.canPlayType("application/vnd.apple.mpegurl")){
+    // Native HLS — iOS Safari
+    video.src = STREAM_URL;
+    video.load();
+    video.addEventListener("loadedmetadata", ()=> doPlay(), {once:true});
+  } else {
+    statusText.textContent = "Tarayıcınız bu yayını desteklemiyor.";
+  }
+}
+
+function doPlay(){
+  video.muted = false;
+  const p = video.play();
+  if(p && p.catch){
+    p.then(()=>{
+      onPlaySuccess();
+    }).catch(()=>{
+      // Autoplay engeli — sessiz başlat, kullanıcı sonra sesi açar
+      video.muted = true;
+      video.play().then(()=>{
+        onPlaySuccess();
+        document.getElementById("muteBtn").textContent = "🔇";
+      });
+    });
+  } else {
+    onPlaySuccess();
+  }
+}
+
+function onPlaySuccess(){
+  playing = true;
+  overlay.classList.add("hidden");
+  setupMediaSession();
+}
+
+function startPlay(){
+  statusText.textContent = "Bağlanıyor...";
+  playBtnEl.textContent = "⏳";
+  initHls();
+}
+
+/* ── MUTE ── */
+function toggleMute(){
+  video.muted = !video.muted;
+  document.getElementById("muteBtn").textContent = video.muted ? "🔇" : "🔊";
+}
+
 /* ── FULLSCREEN ── */
 function goFs(){
+  // Video native fullscreen (mobilde en iyi)
+  if(video.webkitEnterFullscreen){
+    video.webkitEnterFullscreen(); return;
+  }
   const el = document.getElementById("card");
   const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen;
   if(req) req.call(el);
@@ -311,9 +362,75 @@ function goBack(){
   location.href = "xd.html";
 }
 
+/* ── MEDIA SESSION ──
+   Bu API sayesinde kilit ekranında kontrol tuşları çıkar
+   ve tarayıcı sesi arka planda kesmiyor.
+*/
+function setupMediaSession(){
+  if(!("mediaSession" in navigator)) return;
+
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: "Kral Pop TV",
+    artist: "Canlı Yayın",
+    album: "Türkiye",
+    artwork:[{
+      src:"https://assets.uzunmuhalefet.com/logos/1dc650d4-0a3f-4f97-bdb2-4cf01cef8e0a.png",
+      sizes:"512x512", type:"image/png"
+    }]
+  });
+
+  navigator.mediaSession.playbackState = "playing";
+
+  navigator.mediaSession.setActionHandler("play", ()=>{
+    video.play();
+    navigator.mediaSession.playbackState = "playing";
+  });
+  navigator.mediaSession.setActionHandler("pause", ()=>{
+    video.pause();
+    navigator.mediaSession.playbackState = "paused";
+  });
+  navigator.mediaSession.setActionHandler("stop", ()=>{
+    video.pause();
+    navigator.mediaSession.playbackState = "paused";
+  });
+}
+
+video.addEventListener("play",  ()=>{
+  if("mediaSession" in navigator) navigator.mediaSession.playbackState = "playing";
+});
+video.addEventListener("pause", ()=>{
+  if("mediaSession" in navigator) navigator.mediaSession.playbackState = "paused";
+});
+
+/* ── WAKE LOCK ── */
+let wakeLock = null;
+async function requestWakeLock(){
+  if(!("wakeLock" in navigator)) return;
+  try{
+    wakeLock = await navigator.wakeLock.request("screen");
+    wakeLock.addEventListener("release", ()=>{ wakeLock = null; });
+  }catch(e){}
+}
+
+/* ── VİSİBİLİTY (ekran kapanma/açılma) ── */
+document.addEventListener("visibilitychange", async ()=>{
+  const bg = document.getElementById("bgStatus");
+  if(document.visibilityState === "hidden"){
+    bg.style.display = "block";
+  } else {
+    bg.style.display = "none";
+    if(!wakeLock) await requestWakeLock();
+    // Eğer video duraklatıldıysa yeniden başlat
+    if(playing && video.paused){
+      video.play().catch(()=>{});
+    }
+  }
+});
+
+requestWakeLock();
+
 /* ── CHAT ── */
-let chatTimer = null;
-let lastChatTs = 0;
+let chatTimer = null, lastChatTs = 0;
 
 function toggleChat(){
   const box = document.getElementById("chatBox");
@@ -327,7 +444,7 @@ function toggleChat(){
 
 function addEmoji(e){
   const i = document.getElementById("chatInput");
-  i.value = (i.value||"")+e; i.focus();
+  i.value=(i.value||"")+e; i.focus();
 }
 
 function escapeHtml(s){
@@ -343,21 +460,18 @@ async function loadChat(forceScroll){
     const isMod = j.me && ["moderator","admin"].includes(j.me.role);
     const el = document.getElementById("chatMessages");
     el.innerHTML = (j.messages||[]).map(m=>{
-      const time = m.t ? new Date(m.t*1000).toLocaleTimeString("tr-TR",{hour:'2-digit',minute:'2-digit'}) : "";
+      const time = m.t ? new Date(m.t*1000).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}) : "";
       const delBtn = isMod
         ? `<button type="button" onclick="delMsg('${m.id}')" style="margin-left:6px;font-size:11px;border:none;border-radius:8px;padding:4px 6px;background:rgba(255,0,80,.25);color:#fff;cursor:pointer;">Sil</button>`
         : "";
       return `
-        <div style="padding:8px 10px; margin-bottom:8px; border:1px solid rgba(255,255,255,.08);
-        background:rgba(255,255,255,.04); border-radius:14px;">
-          <div style="display:flex; align-items:center; gap:8px;">
+        <div style="padding:8px 10px;margin-bottom:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:14px;">
+          <div style="display:flex;align-items:center;gap:8px;">
             <b style="color:rgba(0,240,255,.95)">${escapeHtml(m.user)}</b>
-            <span style="margin-left:auto; font-size:11px; color:rgba(255,255,255,.55)">${time}</span>
+            <span style="margin-left:auto;font-size:11px;color:rgba(255,255,255,.55)">${time}</span>
             ${delBtn}
           </div>
-          <div style="margin-top:4px; color:rgba(255,255,255,.9); white-space:pre-wrap; word-break:break-word;">
-            ${escapeHtml(m.msg)}
-          </div>
+          <div style="margin-top:4px;color:rgba(255,255,255,.9);white-space:pre-wrap;word-break:break-word;">${escapeHtml(m.msg)}</div>
         </div>`;
     }).join("");
     if(forceScroll) el.scrollTop = el.scrollHeight;
@@ -369,7 +483,7 @@ async function sendMsg(){
   const msg = (input.value||"").trim();
   if(!msg) return;
   const now = Date.now();
-  if(now - lastChatTs < 1200) return;
+  if(now-lastChatTs < 1200) return;
   lastChatTs = now;
   try{
     const body = new URLSearchParams();
@@ -377,7 +491,7 @@ async function sendMsg(){
     const r = await fetch("chat.php?api=send",{
       method:"POST",
       headers:{"Content-Type":"application/x-www-form-urlencoded"},
-      body: body.toString()
+      body:body.toString()
     });
     const j = await r.json();
     if(j.ok){ input.value=""; loadChat(true); }
@@ -391,7 +505,7 @@ async function delMsg(id){
     const r = await fetch("chat.php?api=delete",{
       method:"POST",
       headers:{"Content-Type":"application/x-www-form-urlencoded"},
-      body: body.toString()
+      body:body.toString()
     });
     const j = await r.json();
     if(j.ok) loadChat(false);
@@ -403,77 +517,5 @@ document.addEventListener("keydown",(e)=>{
     e.preventDefault(); sendMsg();
   }
 });
-
-function setupMediaSession(){
-  if(!("mediaSession" in navigator)) return;
-  navigator.mediaSession.metadata = new MediaMetadata({
-    title: "Kral Pop TV",
-    artist: "Canlı Yayın",
-    album: "Türkiye",
-    artwork: [
-      { src: "https://assets.uzunmuhalefet.com/logos/1dc650d4-0a3f-4f97-bdb2-4cf01cef8e0a.png", sizes: "512x512", type: "image/png" }
-    ]
-  });
-
-  navigator.mediaSession.setActionHandler("play", ()=>{ /* iframe yönetir */ });
-  navigator.mediaSession.setActionHandler("pause", ()=>{ /* iframe yönetir */ });
-  navigator.mediaSession.setActionHandler("stop", ()=>{ window.location.reload(); });
-}
-
-let wakeLock = null;
-async function requestWakeLock(){
-  if(!("wakeLock" in navigator)) return;
-  try{
-    wakeLock = await navigator.wakeLock.request("screen");
-    wakeLock.addEventListener("release", ()=>{ wakeLock=null; });
-  }catch(e){}
-}
-
-document.addEventListener("visibilitychange", async ()=>{
-  if(document.visibilityState === "visible"){
-    if(!wakeLock) await requestWakeLock();
-  } else {
-    document.getElementById("bgStatus").style.display = "block";
-  }
-});
-
-function setupSilentAudio(){
-  try{
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const buf = ctx.createBuffer(1, 1, 22050);
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.connect(ctx.destination);
-    src.start(0);
-
-    setInterval(()=>{
-      if(ctx.state === "suspended") ctx.resume();
-    }, 10000);
-  }catch(e){}
-}
-
-let bgSetup = false;
-function initBgPlay(){
-  if(bgSetup) return;
-  bgSetup = true;
-  setupMediaSession();
-  requestWakeLock();
-  setupSilentAudio();
-}
-
-document.addEventListener("click", initBgPlay, {once:true});
-document.addEventListener("touchstart", initBgPlay, {once:true});
-
-document.addEventListener("visibilitychange", ()=>{
-  if(document.visibilityState==="visible"){
-    document.getElementById("bgStatus").style.display = "none";
-  }
-});
-
-window.addEventListener("load", ()=>{
-  const frame = document.getElementById("frame");
-  frame.setAttribute("allow","autoplay; fullscreen; picture-in-picture; web-share");
-});
 </script>
-
 </body></html>
